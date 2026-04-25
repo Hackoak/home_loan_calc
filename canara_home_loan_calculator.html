@@ -675,6 +675,7 @@ function renderEMIChart(sched, P) {
   window._chartYears = years;
   window._chartN = n;
   window._chartXc = xc;
+  window._chartP = P;
 
   /* grid lines */
   const gridLines = [0, 0.25, 0.5, 0.75, 1].map(f => {
@@ -815,9 +816,9 @@ function showChartTooltip(i, y, e) {
           <span style="font-weight:500;color:#a32d2d">₹${fmtL(y.cumInt)}</span>
         </div>
         <div style="display:flex;justify-content:space-between;gap:20px">
-          <span style="color:var(--text-secondary)">Total this year</span>
-          <span style="font-weight:500">₹${fmtL(total)}</span>
-        </div>
+          <span style="color:var(--text-secondary)">Loan paid to date</span>
+          <span style="font-weight:600;color:var(--tex
+        </div>t-success)">${((1 - y.bal / window._chartP) * 100).toFixed(1)}%</span>
       </div>
     </div>`;
 
