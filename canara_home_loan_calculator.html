@@ -7,10 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* ── Reset ── */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* ── Design tokens (matching Claude chat palette) ── */
   :root {
     --bg-page:       #f0ede8;
     --bg-primary:    #ffffff;
@@ -41,268 +39,155 @@
     --mono: 'DM Mono', monospace;
   }
 
-  body {
-    font-family: var(--font);
-    background: var(--bg-page);
-    color: var(--text-primary);
-    min-height: 100vh;
-    padding: 0 0 60px;
-  }
+  body { font-family: var(--font); background: var(--bg-page); color: var(--text-primary); min-height: 100vh; padding: 0 0 60px; }
 
-  /* ── Scrollbar ── */
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: var(--bg-secondary); }
   ::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
 
   /* ── Header ── */
-  .header {
-    background: #fff;
-    border-bottom: 1px solid var(--border-light);
-    padding: 20px 0;
-    margin-bottom: 24px;
-  }
-  .header-inner {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 28px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .header-icon {
-    width: 42px; height: 42px;
-    background: var(--bg-info);
-    border-radius: var(--radius-md);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
+  .header { background: #fff; border-bottom: 1px solid var(--border-light); padding: 18px 0; margin-bottom: 24px; }
+  .header-inner { max-width: 1120px; margin: 0 auto; padding: 0 28px; display: flex; align-items: center; gap: 14px; }
+  .header-icon { width: 42px; height: 42px; background: var(--bg-info); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
   .header-bank { font-size: 11px; color: var(--text-secondary); letter-spacing: .1em; text-transform: uppercase; font-weight: 500; }
   .header-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+
+  /* Number format toggle in header */
+  .header-fmt { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .header-fmt-label { font-size: 11px; color: var(--text-secondary); font-weight: 500; white-space: nowrap; }
+  .fmt-pill { padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: transparent; color: var(--text-secondary); font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--font); transition: all .15s; }
+  .fmt-pill.on { background: var(--bg-info); color: var(--text-info); border-color: var(--border-info); }
 
   /* ── Layout ── */
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
   .grid-main { display: grid; grid-template-columns: 330px 1fr; gap: 18px; align-items: start; }
 
   /* ── Cards ── */
-  .card {
-    background: var(--bg-primary);
-    border: 0.5px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: 18px 20px;
-    margin-bottom: 14px;
-  }
+  .card { background: var(--bg-primary); border: 0.5px solid var(--border-light); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 14px; }
   .card:last-child { margin-bottom: 0; }
-  .card-title {
-    font-size: 11px; font-weight: 600; color: var(--text-secondary);
-    text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px;
-  }
+  .card-title { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px; }
 
   /* ── Labels & inputs ── */
-  .lbl {
-    display: block;
-    font-size: 11px; font-weight: 500; color: var(--text-secondary);
-    text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px;
-  }
-  input[type=number], select {
-    width: 100%;
-    background: var(--bg-secondary);
-    border: 0.5px solid var(--border-mid);
-    border-radius: var(--radius-md);
-    padding: 9px 12px;
-    font-size: 14px; font-family: var(--font);
-    color: var(--text-primary);
-    outline: none;
-    transition: border-color .15s;
-  }
+  .lbl { display: block; font-size: 11px; font-weight: 500; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px; }
+  input[type=number], select { width: 100%; background: var(--bg-secondary); border: 0.5px solid var(--border-mid); border-radius: var(--radius-md); padding: 9px 12px; font-size: 14px; font-family: var(--font); color: var(--text-primary); outline: none; transition: border-color .15s; }
   input[type=number]:focus, select:focus { border-color: var(--text-info); }
   input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-  /* ── Range sliders ── */
-  input[type=range] {
-    -webkit-appearance: none;
-    width: 100%; height: 4px;
-    background: var(--border-light);
-    border-radius: 2px; outline: none;
-    margin: 8px 0 3px;
-    border: none;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px; height: 16px; border-radius: 50%;
-    background: var(--text-info);
-    cursor: pointer;
-    border: 2.5px solid #fff;
-    box-shadow: 0 0 0 1px var(--border-info);
-  }
+  /* ── Sliders ── */
+  input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--border-light); border-radius: 2px; outline: none; margin: 8px 0 3px; border: none; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--text-info); cursor: pointer; border: 2.5px solid #fff; box-shadow: 0 0 0 1px var(--border-info); }
   .slider-row { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-secondary); margin-bottom: 14px; }
   .slider-mid { font-weight: 600; color: var(--text-primary); }
   .field { margin-bottom: 4px; }
 
-  /* ── Pills / toggle buttons ── */
+  /* ── Pills ── */
   .pill-group { display: flex; gap: 8px; margin: 6px 0 6px; flex-wrap: wrap; }
-  .pill {
-    padding: 5px 16px; border-radius: 20px;
-    border: 0.5px solid var(--border-mid);
-    background: transparent; color: var(--text-secondary);
-    font-size: 12px; font-weight: 500; cursor: pointer;
-    font-family: var(--font); transition: all .15s;
-  }
-  .pill.on {
-    background: var(--bg-info); color: var(--text-info);
-    border-color: var(--border-info);
-  }
+  .pill { padding: 5px 16px; border-radius: 20px; border: 0.5px solid var(--border-mid); background: transparent; color: var(--text-secondary); font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--font); transition: all .15s; }
+  .pill.on { background: var(--bg-info); color: var(--text-info); border-color: var(--border-info); }
 
-  /* ── Two and three col grids ── */
+  /* ── Grids ── */
   .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-  .row3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 14px; }
+  .row4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 14px; }
 
-  /* ── Summary stat cards ── */
-  .stat-card {
-    background: var(--bg-primary);
-    border: 0.5px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    padding: 16px 18px;
-  }
+  /* ── Stat tiles ── */
+  .stat-card { background: var(--bg-primary); border: 0.5px solid var(--border-light); border-radius: var(--radius-lg); padding: 16px 18px; }
   .stat-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
   .stat-val { font-size: 22px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
   .stat-sub { font-size: 11px; color: var(--text-secondary); }
 
-  /* ── Add button ── */
-  .btn-add {
-    width: 100%; padding: 10px;
-    background: var(--bg-info); color: var(--text-info);
-    border: 0.5px solid var(--border-info);
-    border-radius: var(--radius-md);
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    font-family: var(--font); margin-top: 8px;
-    transition: opacity .15s;
-  }
+  /* ── Buttons ── */
+  .btn-add { width: 100%; padding: 10px; background: var(--bg-info); color: var(--text-info); border: 0.5px solid var(--border-info); border-radius: var(--radius-md); font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font); margin-top: 8px; transition: opacity .15s; }
   .btn-add:hover { opacity: .85; }
 
   /* ── Prepayment tags ── */
-  .prep-tag {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--bg-secondary);
-    border: 0.5px solid var(--border-light);
-    border-radius: var(--radius-md);
-    padding: 8px 12px; margin-top: 7px;
-  }
-  .rm-btn {
-    background: transparent;
-    border: 0.5px solid var(--border-mid);
-    border-radius: var(--radius-sm);
-    color: var(--text-secondary); cursor: pointer;
-    padding: 3px 9px; font-size: 12px;
-    font-family: var(--font);
-  }
+  .prep-tag { display: flex; justify-content: space-between; align-items: center; background: var(--bg-secondary); border: 0.5px solid var(--border-light); border-radius: var(--radius-md); padding: 8px 12px; margin-top: 7px; }
+  .rm-btn { background: transparent; border: 0.5px solid var(--border-mid); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; padding: 3px 9px; font-size: 12px; font-family: var(--font); }
   .rm-btn:hover { background: var(--bg-danger); color: var(--text-danger); border-color: var(--border-danger); }
 
-  /* ── Bar chart in breakdown ── */
+  /* ── Bars ── */
   .bar-wrap { height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; margin-top: 5px; margin-bottom: 10px; }
   .bar-fill { height: 100%; border-radius: 3px; transition: width .4s ease; }
+  .savings-box { background: var(--bg-success); border: 0.5px solid var(--border-success); border-radius: var(--radius-md); padding: 10px 14px; margin-top: 10px; font-size: 12px; color: var(--text-success); font-weight: 500; }
 
-  /* ── Savings box ── */
-  .savings-box {
-    background: var(--bg-success);
-    border: 0.5px solid var(--border-success);
-    border-radius: var(--radius-md);
-    padding: 10px 14px; margin-top: 10px;
-    font-size: 12px; color: var(--text-success); font-weight: 500;
-  }
-
-  /* ── Table ── */
+  /* ── Amortisation table ── */
   .table-wrap { overflow-x: auto; max-height: 480px; overflow-y: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
   thead { position: sticky; top: 0; background: var(--bg-secondary); z-index: 1; }
-  th {
-    padding: 9px 13px; text-align: right;
-    font-size: 11px; color: var(--text-secondary); font-weight: 600;
-    border-bottom: 0.5px solid var(--border-light);
-    white-space: nowrap; letter-spacing: .04em; text-transform: uppercase;
-  }
+  th { padding: 9px 10px; text-align: right; font-size: 11px; color: var(--text-secondary); font-weight: 600; border-bottom: 0.5px solid var(--border-light); white-space: nowrap; letter-spacing: .04em; text-transform: uppercase; }
   th:first-child { text-align: left; }
-  td { padding: 9px 13px; text-align: right; border-bottom: 0.5px solid var(--border-light); color: var(--text-primary); }
+  td { padding: 8px 10px; text-align: right; border-bottom: 0.5px solid var(--border-light); color: var(--text-primary); }
   td:first-child { text-align: left; font-size: 12px; }
   tr:hover td { background: var(--bg-secondary); }
   .tr-prep td { background: #f2f9ec; }
   .tr-prep:hover td { background: #e8f5da; }
 
   /* ── Tabs ── */
-  .tab-bar {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 16px 0;
-    border-bottom: 0.5px solid var(--border-light);
-    margin-bottom: 0;
-  }
-  .tab {
-    padding: 8px 16px; border: none; background: transparent;
-    color: var(--text-secondary); font-size: 12px; cursor: pointer;
-    font-family: var(--font); font-weight: 500;
-    border-bottom: 2px solid transparent; margin-bottom: -0.5px;
-    transition: all .15s;
-  }
+  .tab-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px 0; border-bottom: 0.5px solid var(--border-light); }
+  .tab { padding: 8px 16px; border: none; background: transparent; color: var(--text-secondary); font-size: 12px; cursor: pointer; font-family: var(--font); font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -0.5px; transition: all .15s; }
   .tab.on { color: var(--text-primary); border-bottom-color: var(--text-info); }
 
-  /* ── Badge ── */
-  .badge {
-    display: inline-block; font-size: 10px; font-weight: 600;
-    padding: 1px 6px; border-radius: 4px; margin-left: 5px;
-    background: var(--bg-success); color: var(--text-success);
-  }
-
-  /* ── Divider ── */
+  /* ── Misc ── */
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; margin-left: 5px; background: var(--bg-success); color: var(--text-success); }
   .divider { border: none; border-top: 0.5px solid var(--border-light); margin: 12px 0; }
 
-  /* ── Tax section rows ── */
-  .tax-row {
-    background: var(--bg-secondary);
-    border: 0.5px solid var(--border-light);
-    border-radius: var(--radius-md);
-    padding: 10px 12px;
-  }
-  .tax-section {
-    font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px;
-  }
+  /* ── Tax rows ── */
+  .tax-row { background: var(--bg-secondary); border: 0.5px solid var(--border-light); border-radius: var(--radius-md); padding: 10px 12px; }
+  .tax-section { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
 
-  /* ── Rate sensitivity table ── */
+  /* ── Rate sensitivity ── */
   .sens-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .sens-table th {
-    padding: 7px 10px; font-size: 11px; color: var(--text-secondary);
-    font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
-    border-bottom: 0.5px solid var(--border-light);
-  }
+  .sens-table th { padding: 7px 10px; font-size: 11px; color: var(--text-secondary); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; border-bottom: 0.5px solid var(--border-light); }
   .sens-table th:first-child { text-align: left; }
   .sens-table td { padding: 7px 10px; border-bottom: 0.5px solid var(--border-light); }
   .sens-table td:first-child { text-align: left; }
   .sens-table td:not(:first-child) { text-align: right; }
   .sens-current { background: var(--bg-info) !important; }
 
-  /* ── ROI toggle button ── */
-  .btn-roi-toggle {
-    width: 100%; padding: 10px 16px;
-    background: var(--bg-warning); color: var(--text-warning);
-    border: 0.5px solid #e8c97a;
-    border-radius: var(--radius-md);
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    font-family: var(--font); margin-bottom: 14px;
-    text-align: left; display: flex; justify-content: space-between; align-items: center;
-    transition: opacity .15s;
-  }
+  /* ── Simulator ── */
+  .sim-section { border-top: 0.5px solid var(--border-light); margin-top: 14px; padding-top: 14px; }
+  .sim-result-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 7px 0; border-bottom: 0.5px solid var(--border-light); }
+  .sim-result-row:last-child { border-bottom: none; }
+
+  /* ── ROI toggle ── */
+  .btn-roi-toggle { width: 100%; padding: 10px 16px; background: var(--bg-warning); color: var(--text-warning); border: 0.5px solid #e8c97a; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font); margin-bottom: 14px; text-align: left; display: flex; justify-content: space-between; align-items: center; transition: opacity .15s; }
   .btn-roi-toggle:hover { opacity: .85; }
 
-  /* ── Responsive ── */
-  @media(max-width:800px) {
+  /* ── Chart ── */
+  .chart-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); }
+  .legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .legend-dash { width: 14px; height: 0; border-top: 2px dashed #185fa5; flex-shrink: 0; }
+
+  /* ── Chart Tooltip ── */
+  #chartTooltip {
+    position: fixed; display: none;
+    background: #fff;
+    border: 0.5px solid var(--border-mid);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+    pointer-events: none;
+    z-index: 9999;
+    min-width: 200px; max-width: 240px;
+    font-family: var(--font);
+  }
+
+  @media(max-width:900px) {
     .grid-main { grid-template-columns: 1fr; }
-    .row3 { grid-template-columns: 1fr 1fr; }
+    .row4 { grid-template-columns: 1fr 1fr; }
+    .header-fmt-label { display: none; }
   }
   @media(max-width:480px) {
-    .row3 { grid-template-columns: 1fr; }
+    .row4 { grid-template-columns: 1fr; }
     .row2 { grid-template-columns: 1fr; }
     .wrap { padding: 0 14px; }
   }
 </style>
 </head>
 <body>
+
+<!-- Floating chart tooltip -->
+<div id="chartTooltip"></div>
 
 <!-- Header -->
 <header class="header">
@@ -311,6 +196,12 @@
     <div>
       <div class="header-bank">Canara Bank</div>
       <div class="header-title">Home Loan Calculator</div>
+    </div>
+    <!-- Number format toggle -->
+    <div class="header-fmt">
+      <span class="header-fmt-label">Numbers:</span>
+      <button class="fmt-pill on" id="fmtCompact" onclick="setNumFmt('compact')">₹30L</button>
+      <button class="fmt-pill"    id="fmtFull"    onclick="setNumFmt('full')">Full</button>
     </div>
   </div>
 </header>
@@ -324,7 +215,6 @@
       <!-- Loan Details -->
       <div class="card">
         <div class="card-title">Loan Details</div>
-
         <div class="field">
           <label class="lbl" for="amt">Loan Amount (₹)</label>
           <input type="number" id="amt" value="3000000" min="100000" max="50000000" step="50000">
@@ -350,7 +240,6 @@
       <!-- Prepayment -->
       <div class="card">
         <div class="card-title">Lumpsum Prepayment</div>
-
         <div class="row2">
           <div>
             <label class="lbl">After Year</label>
@@ -361,19 +250,16 @@
             <input type="number" id="pMo" value="0" min="0" max="11" step="1">
           </div>
         </div>
-
         <div class="field" style="margin-bottom:10px">
           <label class="lbl">Amount (₹)</label>
           <input type="number" id="pAmt" value="500000" min="10000" step="10000">
         </div>
-
         <label class="lbl">Benefit Mode</label>
         <div class="pill-group">
           <button class="pill on" id="mTenure" onclick="setMode('tenure')">Reduce Tenure</button>
-          <button class="pill" id="mEMI" onclick="setMode('emi')">Reduce EMI</button>
+          <button class="pill"    id="mEMI"    onclick="setMode('emi')">Reduce EMI</button>
         </div>
         <p id="modeHint" style="font-size:11px;color:var(--text-secondary);margin-bottom:6px">Keep EMI same, close loan earlier</p>
-
         <button class="btn-add" onclick="addPrep()">+ Add Prepayment</button>
         <div id="prepList"></div>
       </div>
@@ -381,20 +267,17 @@
       <!-- Income Tax Benefits -->
       <div class="card">
         <div class="card-title">Income Tax Benefits</div>
-
         <label class="lbl">Property Type</label>
         <div class="pill-group" style="margin-bottom:12px">
           <button class="pill on" id="ptSelf" onclick="setPropType('self')">Self-Occupied</button>
-          <button class="pill" id="ptLet" onclick="setPropType('let')">Let-Out / Rented</button>
+          <button class="pill"    id="ptLet"  onclick="setPropType('let')">Let-Out / Rented</button>
         </div>
-
         <label class="lbl">Your Tax Bracket</label>
         <div class="pill-group" style="margin-bottom:14px">
-          <button class="pill" id="tb5" onclick="setTaxBracket(5)">5%</button>
+          <button class="pill"    id="tb5"  onclick="setTaxBracket(5)">5%</button>
           <button class="pill on" id="tb20" onclick="setTaxBracket(20)">20%</button>
-          <button class="pill" id="tb30" onclick="setTaxBracket(30)">30%</button>
+          <button class="pill"    id="tb30" onclick="setTaxBracket(30)">30%</button>
         </div>
-
         <div id="taxBenefits"></div>
       </div>
 
@@ -403,8 +286,8 @@
     <!-- ══ RIGHT PANEL ══ -->
     <div>
 
-      <!-- Summary cards -->
-      <div class="row3">
+      <!-- 4-tile summary -->
+      <div class="row4">
         <div class="stat-card">
           <div class="stat-label">Monthly EMI</div>
           <div class="stat-val" id="sEMI">—</div>
@@ -416,13 +299,18 @@
           <div class="stat-sub" id="sIntSub"></div>
         </div>
         <div class="stat-card">
+          <div class="stat-label">Total Payments</div>
+          <div class="stat-val" id="sTotalPay">—</div>
+          <div class="stat-sub" id="sTotalPaySub"></div>
+        </div>
+        <div class="stat-card">
           <div class="stat-label">Loan Closes In</div>
           <div class="stat-val" id="sCls">—</div>
           <div class="stat-sub" id="sClsSub"></div>
         </div>
       </div>
 
-      <!-- Breakdown bars -->
+      <!-- Cost Breakdown -->
       <div class="card">
         <div class="card-title">Cost Breakdown</div>
         <div id="bars"></div>
@@ -434,13 +322,54 @@
         <div id="savingsBox"></div>
       </div>
 
-      <!-- Rate Sensitivity -->
+      <!-- EMI Breakdown Chart -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div class="card-title" style="margin-bottom:0">EMI Breakdown Chart</div>
+          <span style="font-size:10px;color:var(--text-secondary)">Hover bars for details</span>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-swatch" style="background:#f7c1c1"></div>Interest</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#b5d4f4"></div>Principal</div>
+          <div class="legend-item"><div class="legend-swatch" style="background:#c0dd97"></div>Prepayment</div>
+          <div class="legend-item"><div class="legend-dash"></div>Balance (right axis)</div>
+        </div>
+        <div id="emiChart"></div>
+      </div>
+
+      <!-- Amortisation table — moved here, right after EMI chart -->
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="tab-bar">
+          <span class="card-title" style="margin-bottom:10px">Amortisation Schedule</span>
+          <div>
+            <button class="tab on" id="tabY" onclick="switchTab('yearly')">Yearly</button>
+            <button class="tab"    id="tabM" onclick="switchTab('monthly')">Monthly</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table><thead id="tHead"></thead><tbody id="tBody"></tbody></table>
+        </div>
+      </div>
+
+      <!-- Rate Sensitivity + Simulator -->
       <div class="card">
         <div class="card-title">Rate Sensitivity</div>
         <div id="rateSensitivity"></div>
+
+        <div class="sim-section">
+          <div style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Rate Change Simulator</div>
+          <p style="font-size:11px;color:var(--text-secondary);margin-bottom:10px">Drag to see how a future rate hike or cut affects your EMI and tenure.</p>
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+            <span style="color:var(--text-secondary)">Simulated Rate</span>
+            <span style="font-weight:600;color:var(--text-primary)" id="simRateLbl">8.75%</span>
+          </div>
+          <input type="range" id="simRateSlider" min="5" max="20" step="0.05" value="8.75" oninput="updateSimulator()">
+          <div class="slider-row" style="margin-bottom:0"><span>5%</span><span>20%</span></div>
+          <div id="simResult" style="margin-top:10px"></div>
+        </div>
       </div>
 
-      <!-- Prepayment vs Investment ROI (toggleable) -->
+      <!-- Prepayment vs Investment ROI (hidden) -->
       <button class="btn-roi-toggle" id="roiToggle" onclick="toggleROI()">
         <span>&#9656; Prepayment vs Investment Analysis</span>
         <span style="font-size:11px;opacity:.7">Hidden · click to expand</span>
@@ -448,9 +377,7 @@
       <div id="roiPanel" style="display:none;">
         <div class="card" style="margin-bottom:14px">
           <div class="card-title">Prepayment ROI Analysis</div>
-          <p style="font-size:11px;color:var(--text-secondary);margin-bottom:12px">
-            Compare interest saved by prepaying against potential investment gains on the same amount.
-          </p>
+          <p style="font-size:11px;color:var(--text-secondary);margin-bottom:12px">Compare interest saved by prepaying against potential investment gains on the same amount.</p>
           <label class="lbl">Alternative Investment Yield (%)</label>
           <div class="field" style="margin-bottom:8px">
             <input type="number" id="altYield" value="7" min="1" max="30" step="0.5" oninput="calc()">
@@ -465,75 +392,68 @@
         </div>
       </div>
 
-      <!-- Amortisation table -->
-      <div class="card" style="padding:0;overflow:hidden">
-        <div class="tab-bar">
-          <span class="card-title" style="margin-bottom:10px">Amortisation Schedule</span>
-          <div>
-            <button class="tab on" id="tabY" onclick="switchTab('yearly')">Yearly</button>
-            <button class="tab" id="tabM" onclick="switchTab('monthly')">Monthly</button>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead id="tHead"></thead>
-            <tbody id="tBody"></tbody>
-          </table>
-        </div>
-      </div>
-
     </div><!-- /right -->
-  </div><!-- /grid-main -->
-</div><!-- /wrap -->
+  </div>
+</div>
 
 <script>
-/* ── State ── */
-let preps    = [];
-let mode     = 'tenure';
-let tabMode  = 'yearly';
-let propType = 'self';
+/* ══ State ══ */
+let preps      = [];
+let mode       = 'tenure';
+let tabMode    = 'yearly';
+let propType   = 'self';
 let taxBracket = 20;
-let showROI  = false;
+let showROI    = false;
+let numFmt     = 'compact';   // 'compact' | 'full'
 
-/* ── Helpers ── */
+/* ══ Helpers ══ */
 const $ = id => document.getElementById(id);
 const fmtN = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n));
+
 function fmtL(n) {
+  if (numFmt === 'full') return fmtN(n);
   if (n >= 1e7) return (n / 1e7).toFixed(2) + ' Cr';
   if (n >= 1e5) return (n / 1e5).toFixed(2) + ' L';
   return fmtN(n);
 }
 
-/* ── EMI formula ── */
+/* ══ Number format toggle ══ */
+function setNumFmt(f) {
+  numFmt = f;
+  $('fmtCompact').className = 'fmt-pill' + (f === 'compact' ? ' on' : '');
+  $('fmtFull').className    = 'fmt-pill' + (f === 'full'    ? ' on' : '');
+  calc();
+}
+
+/* ══ EMI formula ══ */
 function calcEMI(P, aR, m) {
   const r = aR / 12 / 100;
   if (r === 0) return P / m;
   return P * r * Math.pow(1 + r, m) / (Math.pow(1 + r, m) - 1);
 }
 
-/* ── Generate amortisation schedule ── */
+/* ══ Generate schedule (with beginBalance + cumulative interest) ══ */
 function genSchedule(P, aR, tenM, prepayments) {
   const r = aR / 12 / 100;
-  let e = calcEMI(P, aR, tenM);
+  let e   = calcEMI(P, aR, tenM);
   let bal = P;
   const sched = [];
-  let totInt = 0;
+  let totInt = 0, cumInt = 0;
   const pm = {};
-  prepayments.forEach(p => {
-    const k = p.year * 12 + p.month;
-    (pm[k] = pm[k] || []).push(p);
-  });
+  prepayments.forEach(p => { const k = p.year*12+p.month; (pm[k]=pm[k]||[]).push(p); });
+
   let month = 0;
   while (bal > 1 && month < tenM + 720) {
     month++;
+    const beginBalance = bal;
     const interest = bal * r;
     let princ = Math.min(e - interest, bal);
     if (princ < 0) princ = 0;
     bal -= princ;
-    totInt += interest;
+    totInt  += interest;
+    cumInt  += interest;
     const ps = pm[month] || [];
-    let prepaid = 0;
-    let newE = e;
+    let prepaid = 0, newE = e;
     for (const p of ps) {
       const a = Math.min(p.amount, bal);
       prepaid += a; bal -= a;
@@ -545,159 +465,137 @@ function genSchedule(P, aR, tenM, prepayments) {
     }
     sched.push({
       month, year: Math.ceil(month / 12),
-      emiPaid: Math.round(e),
+      beginBalance: Math.round(beginBalance),
+      emiPaid:  Math.round(e),
       interest: Math.round(interest),
-      principal: Math.round(princ),
-      prepaid: Math.round(prepaid),
-      balance: Math.round(bal),
-      newEMI: prepaid > 0 ? Math.round(newE) : null
+      principal:Math.round(princ),
+      prepaid:  Math.round(prepaid),
+      balance:  Math.round(bal),
+      cumInt:   Math.round(cumInt),
+      newEMI:   prepaid > 0 ? Math.round(newE) : null
     });
     if (bal <= 1) break;
   }
   return { sched, totInt };
 }
 
-/* ── Mode toggle ── */
+/* ══ Toggle helpers ══ */
 function setMode(m) {
   mode = m;
-  $('mTenure').className = 'pill' + (m === 'tenure' ? ' on' : '');
-  $('mEMI').className    = 'pill' + (m === 'emi'    ? ' on' : '');
-  $('modeHint').textContent = m === 'tenure'
-    ? 'Keep EMI same, close loan earlier'
-    : 'Keep tenure same, pay lower EMI';
+  $('mTenure').className = 'pill' + (m==='tenure'?' on':'');
+  $('mEMI').className    = 'pill' + (m==='emi'   ?' on':'');
+  $('modeHint').textContent = m==='tenure' ? 'Keep EMI same, close loan earlier' : 'Keep tenure same, pay lower EMI';
 }
-
-/* ── Tab toggle ── */
 function switchTab(t) {
   tabMode = t;
-  $('tabY').className = 'tab' + (t === 'yearly'  ? ' on' : '');
-  $('tabM').className = 'tab' + (t === 'monthly' ? ' on' : '');
+  $('tabY').className = 'tab' + (t==='yearly' ?' on':'');
+  $('tabM').className = 'tab' + (t==='monthly'?' on':'');
   renderTable(window._schedule);
 }
-
-/* ── Property type toggle ── */
 function setPropType(t) {
   propType = t;
-  $('ptSelf').className = 'pill' + (t === 'self' ? ' on' : '');
-  $('ptLet').className  = 'pill' + (t === 'let'  ? ' on' : '');
+  $('ptSelf').className = 'pill' + (t==='self'?' on':'');
+  $('ptLet').className  = 'pill' + (t==='let' ?' on':'');
   calc();
 }
-
-/* ── Tax bracket toggle ── */
 function setTaxBracket(b) {
   taxBracket = b;
-  $('tb5').className  = 'pill' + (b === 5  ? ' on' : '');
-  $('tb20').className = 'pill' + (b === 20 ? ' on' : '');
-  $('tb30').className = 'pill' + (b === 30 ? ' on' : '');
+  $('tb5').className  = 'pill' + (b===5 ?' on':'');
+  $('tb20').className = 'pill' + (b===20?' on':'');
+  $('tb30').className = 'pill' + (b===30?' on':'');
   calc();
 }
-
-/* ── Yield preset toggle ── */
 function setYield(y) {
   $('altYield').value = y;
-  ['yFD','yPPF','yMF','yEQ'].forEach(id => $( id).className = 'pill');
-  const map = { 7: 'yFD', 7.1: 'yPPF', 12: 'yMF', 15: 'yEQ' };
+  ['yFD','yPPF','yMF','yEQ'].forEach(id => $(id).className = 'pill');
+  const map = {7:'yFD', 7.1:'yPPF', 12:'yMF', 15:'yEQ'};
   if (map[y]) $(map[y]).className = 'pill on';
   calc();
 }
-
-/* ── ROI panel toggle ── */
 function toggleROI() {
   showROI = !showROI;
   $('roiPanel').style.display = showROI ? 'block' : 'none';
   $('roiToggle').innerHTML = showROI
     ? '<span>&#9662; Prepayment vs Investment Analysis</span><span style="font-size:11px;opacity:.7">Click to collapse</span>'
     : '<span>&#9656; Prepayment vs Investment Analysis</span><span style="font-size:11px;opacity:.7">Hidden · click to expand</span>';
-  if (showROI) renderROI(window._baseSched, window._schedule, preps, parseFloat($('altYield').value) || 7);
+  if (showROI) renderROI(window._baseSched, window._schedule, preps, parseFloat($('altYield').value)||7);
 }
 
-/* ── Render amortisation table ── */
+/* ══ Amortisation table (with Beginning Balance) ══ */
 function renderTable(sched) {
   if (!sched) return;
   const isY = tabMode === 'yearly';
-  $('tHead').innerHTML = `<tr>${['Period','EMI','Principal','Interest','Prepaid','Balance']
-    .map((h,i) => `<th${i===0?' style="text-align:left"':''}>${h}</th>`)
-    .join('')}</tr>`;
+  $('tHead').innerHTML = `<tr>${['Period','Beg. Balance','EMI','Principal','Interest','Prepaid','Closing Bal']
+    .map((h,i) => `<th${i===0?' style="text-align:left"':''}>${h}</th>`).join('')}</tr>`;
 
-  let rows;
   if (isY) {
     const map = {};
     sched.forEach(r => {
-      if (!map[r.year]) map[r.year] = { year: r.year, int: 0, princ: 0, prepaid: 0, emi: 0, bal: 0 };
+      if (!map[r.year]) map[r.year] = { year:r.year, int:0, princ:0, prepaid:0, emi:0, bal:0, beginBal:r.beginBalance };
       map[r.year].int    += r.interest;
       map[r.year].princ  += r.principal;
       map[r.year].prepaid+= r.prepaid;
       map[r.year].emi    += r.emiPaid;
       map[r.year].bal     = r.balance;
     });
-    rows = Object.values(map);
-    $('tBody').innerHTML = rows.map(r => `
-      <tr class="${r.prepaid > 0 ? 'tr-prep' : ''}">
-        <td>Year ${r.year}${r.prepaid > 0 ? '<span class="badge">Prepaid</span>' : ''}</td>
+    $('tBody').innerHTML = Object.values(map).map(r => `
+      <tr class="${r.prepaid>0?'tr-prep':''}">
+        <td>Year ${r.year}${r.prepaid>0?'<span class="badge">Prepaid</span>':''}</td>
+        <td>₹${fmtN(r.beginBal)}</td>
         <td>₹${fmtN(r.emi)}</td>
         <td style="color:#185fa5">₹${fmtN(r.princ)}</td>
         <td style="color:#a32d2d">₹${fmtN(r.int)}</td>
-        <td style="color:${r.prepaid > 0 ? '#3b6d11' : '#b0ada8'}">${r.prepaid > 0 ? '₹' + fmtN(r.prepaid) : '—'}</td>
+        <td style="color:${r.prepaid>0?'#3b6d11':'#b0ada8'}">${r.prepaid>0?'₹'+fmtN(r.prepaid):'—'}</td>
         <td>₹${fmtN(r.bal)}</td>
       </tr>`).join('');
   } else {
     $('tBody').innerHTML = sched.map(r => `
-      <tr class="${r.prepaid > 0 ? 'tr-prep' : ''}">
-        <td>Mo ${r.month} (Yr ${r.year})${r.prepaid > 0 ? '<span class="badge">Prep</span>' : ''}</td>
+      <tr class="${r.prepaid>0?'tr-prep':''}">
+        <td>Mo ${r.month} (Yr ${r.year})${r.prepaid>0?'<span class="badge">Prep</span>':''}</td>
+        <td>₹${fmtN(r.beginBalance)}</td>
         <td>₹${fmtN(r.emiPaid)}</td>
         <td style="color:#185fa5">₹${fmtN(r.principal)}</td>
         <td style="color:#a32d2d">₹${fmtN(r.interest)}</td>
-        <td style="color:${r.prepaid > 0 ? '#3b6d11' : '#b0ada8'}">${r.prepaid > 0 ? '₹' + fmtN(r.prepaid) : '—'}</td>
+        <td style="color:${r.prepaid>0?'#3b6d11':'#b0ada8'}">${r.prepaid>0?'₹'+fmtN(r.prepaid):'—'}</td>
         <td>₹${fmtN(r.balance)}</td>
       </tr>`).join('');
   }
 }
 
-/* ── Render prepayment tags ── */
+/* ══ Prepayment tags ══ */
 function renderPrepList() {
-  $('prepList').innerHTML = preps.map((p, i) => `
+  $('prepList').innerHTML = preps.map((p,i) => `
     <div class="prep-tag">
       <div>
         <div style="font-size:13px;font-weight:600">₹${fmtN(p.amount)}</div>
-        <div style="font-size:11px;color:var(--text-secondary)">Yr ${p.year} Mo ${p.month} · ${p.mode === 'tenure' ? '↓ Tenure' : '↓ EMI'}</div>
+        <div style="font-size:11px;color:var(--text-secondary)">Yr ${p.year} Mo ${p.month} · ${p.mode==='tenure'?'↓ Tenure':'↓ EMI'}</div>
       </div>
       <button class="rm-btn" onclick="removePrep(${i})">✕ Remove</button>
     </div>`).join('');
 }
 
-/* ── Render tax benefits ── */
+/* ══ Tax benefits ══ */
 function renderTaxBenefits(sched, P) {
   const yr1 = sched.filter(r => r.year === 1);
   if (!yr1.length) { $('taxBenefits').innerHTML = ''; return; }
-
-  const yr1Int   = yr1.reduce((s, r) => s + r.interest, 0);
-  const yr1Princ = yr1.reduce((s, r) => s + r.principal, 0);
+  const yr1Int   = yr1.reduce((s,r) => s+r.interest,  0);
+  const yr1Princ = yr1.reduce((s,r) => s+r.principal, 0);
   const rate = taxBracket / 100;
-
   let deduct24b, note24b;
   if (propType === 'self') {
     deduct24b = Math.min(yr1Int, 200000);
-    note24b   = yr1Int > 200000
-      ? `Capped at ₹2L (actual interest ₹${fmtL(yr1Int)})`
-      : `Full interest eligible (₹${fmtL(yr1Int)})`;
+    note24b   = yr1Int > 200000 ? `Capped at ₹2L (actual ₹${fmtL(yr1Int)})` : `Full interest eligible (₹${fmtL(yr1Int)})`;
   } else {
     deduct24b = yr1Int;
     note24b   = `No cap for let-out property`;
   }
-
   const deduct80c = Math.min(yr1Princ, 150000);
-  const note80c   = yr1Princ > 150000
-    ? `Capped at ₹1.5L (shared with other 80C investments)`
-    : `₹${fmtL(yr1Princ)} eligible (within ₹1.5L limit)`;
-
+  const note80c   = yr1Princ > 150000 ? `Capped at ₹1.5L (shared with other 80C)` : `₹${fmtL(yr1Princ)} eligible (within ₹1.5L)`;
   const tax24b = Math.round(deduct24b * rate);
   const tax80c = Math.round(deduct80c * rate);
   const totalTaxSaved = tax24b + tax80c;
-
   const netInterestCost = yr1Int - tax24b;
-  const effectiveRate = yr1Int > 0
-    ? (netInterestCost / P * 12 * 100).toFixed(2)
-    : '—';
+  const effectiveRate = yr1Int > 0 ? (netInterestCost / P * 12 * 100).toFixed(2) : '—';
 
   $('taxBenefits').innerHTML = `
     <div style="display:grid;gap:8px">
@@ -713,7 +611,6 @@ function renderTaxBenefits(sched, P) {
           <span style="font-weight:600;color:var(--text-success)">₹${fmtN(tax24b)}</span>
         </div>
       </div>
-
       <div class="tax-row">
         <div class="tax-section">Sec 80C — Principal Repayment</div>
         <div style="font-size:11px;color:var(--text-secondary);margin:3px 0">${note80c}</div>
@@ -726,7 +623,6 @@ function renderTaxBenefits(sched, P) {
           <span style="font-weight:600;color:var(--text-success)">₹${fmtN(tax80c)}</span>
         </div>
       </div>
-
       <div style="background:var(--bg-success);border:0.5px solid var(--border-success);border-radius:var(--radius-md);padding:10px 14px">
         <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:5px">
           <span style="color:var(--text-success)">Total Tax Saved (Yr 1)</span>
@@ -737,131 +633,355 @@ function renderTaxBenefits(sched, P) {
           <span style="font-weight:600;color:var(--text-primary)">${effectiveRate}% p.a. (after tax)</span>
         </div>
       </div>
-
       <div style="font-size:10px;color:var(--text-secondary);line-height:1.5">
-        * Based on Year 1 figures. Sec 80C limit of ₹1.5L is shared with PF, ELSS, LIC etc.
-        ${propType === 'let' ? 'For let-out, set-off of loss limited to ₹2L/yr; balance carried forward.' : ''}
+        * Year 1 figures. Sec 80C ₹1.5L limit shared with PF, ELSS, LIC etc.
+        ${propType==='let' ? 'Let-out: set-off of loss limited to ₹2L/yr; balance carried forward.' : ''}
       </div>
     </div>`;
 }
 
-/* ── Render rate sensitivity ── */
+/* ══ EMI Breakdown Chart (SVG + interactive hover) ══ */
+function renderEMIChart(sched, P) {
+  const el = $('emiChart');
+  if (!sched || !sched.length) { el.innerHTML = ''; return; }
+
+  /* aggregate by year, track cumulative interest */
+  const yearMap = {};
+  let runInt = 0;
+  sched.forEach(r => {
+    if (!yearMap[r.year]) yearMap[r.year] = { int:0, princ:0, prepaid:0, bal:0, cumInt:0, beginBal:r.beginBalance };
+    yearMap[r.year].int    += r.interest;
+    yearMap[r.year].princ  += r.principal;
+    yearMap[r.year].prepaid+= r.prepaid;
+    yearMap[r.year].bal     = r.balance;
+    runInt += r.interest;
+    yearMap[r.year].cumInt  = runInt;
+  });
+  const years = Object.values(yearMap);
+  const n     = years.length;
+  const maxBar = Math.max(...years.map(y => y.int + y.princ + y.prepaid));
+
+  /* SVG geometry */
+  const W = 560, H = 250;
+  const pad = { top: 22, right: 58, bottom: 38, left: 58 };
+  const cW  = W - pad.left - pad.right;
+  const cH  = H - pad.top  - pad.bottom;
+  const bw  = Math.max(4, cW / n - 2);
+  const xc  = i => pad.left + (i + 0.5) * (cW / n);
+  const yBar = v => pad.top + cH - (v / maxBar * cH);
+  const yBal = v => pad.top + cH * (1 - v / P);
+
+  /* store for event handlers */
+  window._chartYears = years;
+  window._chartN = n;
+  window._chartXc = xc;
+
+  /* grid lines */
+  const gridLines = [0, 0.25, 0.5, 0.75, 1].map(f => {
+    const y = pad.top + cH * (1 - f);
+    return `<line x1="${pad.left}" y1="${y}" x2="${pad.left+cW}" y2="${y}" stroke="#ece9e4" stroke-width="0.5"/>
+            <text x="${pad.left-6}" y="${y+3.5}" text-anchor="end" font-size="9" fill="#a09d98">${fmtL(f*maxBar)}</text>`;
+  }).join('');
+
+  /* right-axis labels for balance */
+  const rightLbls = [0, 0.5, 1].map(f => {
+    const y = pad.top + cH * (1 - f);
+    return `<text x="${pad.left+cW+6}" y="${y+3.5}" text-anchor="start" font-size="9" fill="#6a9fd0">${fmtL(f*P)}</text>`;
+  }).join('');
+
+  /* bar groups — each in a <g> so opacity can be controlled */
+  const barGroups = years.map((y, i) => {
+    const x    = pad.left + i*(cW/n) + 1;
+    const base = pad.top + cH;
+    const iH   = (y.int    / maxBar) * cH;
+    const pH   = (y.princ  / maxBar) * cH;
+    const ppH  = (y.prepaid/ maxBar) * cH;
+    const hasPP = y.prepaid > 0;
+    return `<g id="bgrp-${i}" style="transition:opacity 0.15s">
+      <rect x="${x}" y="${base-iH}"          width="${bw}" height="${iH}"  fill="#f7c1c1" rx="1.5"/>
+      <rect x="${x}" y="${base-iH-pH}"       width="${bw}" height="${pH}"  fill="#b5d4f4" rx="1.5"/>
+      ${hasPP ? `<rect x="${x}" y="${base-iH-pH-ppH}" width="${bw}" height="${ppH}" fill="#c0dd97" rx="1.5"/>` : ''}
+    </g>`;
+  }).join('');
+
+  /* balance curve + dots */
+  const balPts = years.map((y,i) => `${xc(i)},${yBal(y.bal)}`).join(' ');
+  const balDots = years.map((y,i) =>
+    `<circle id="bdot-${i}" cx="${xc(i)}" cy="${yBal(y.bal)}" r="2.5" fill="#185fa5" stroke="#fff" stroke-width="1.2" opacity="0.8" style="transition:r 0.12s,opacity 0.12s"/>`
+  ).join('');
+
+  /* crosshair (vertical) */
+  const crosshair = `<line id="chLine" x1="0" y1="${pad.top}" x2="0" y2="${pad.top+cH}" stroke="#706f6b" stroke-width="1" stroke-dasharray="3,2" opacity="0"/>`;
+
+  /* invisible hit-area overlays */
+  const overlays = years.map((_,i) =>
+    `<rect class="chover" data-i="${i}" x="${pad.left+i*(cW/n)}" y="${pad.top}" width="${cW/n}" height="${cH}" fill="transparent" style="cursor:crosshair"/>`
+  ).join('');
+
+  /* x-axis labels */
+  const step = Math.max(1, Math.ceil(n / 10));
+  const xLbls = years.map((_,i) =>
+    (i%step===0 || i===n-1) ? `<text x="${xc(i)}" y="${pad.top+cH+20}" text-anchor="middle" font-size="9" fill="#a09d98">Yr ${i+1}</text>` : ''
+  ).join('');
+
+  /* axis lines */
+  const axes = `
+    <line x1="${pad.left}"    y1="${pad.top}"    x2="${pad.left}"    y2="${pad.top+cH}" stroke="#d0cdc8" stroke-width="0.7"/>
+    <line x1="${pad.left}"    y1="${pad.top+cH}" x2="${pad.left+cW}" y2="${pad.top+cH}" stroke="#d0cdc8" stroke-width="0.7"/>
+    <line x1="${pad.left+cW}" y1="${pad.top}"    x2="${pad.left+cW}" y2="${pad.top+cH}" stroke="#d0cdc8" stroke-width="0.5" stroke-dasharray="3,2"/>`;
+
+  el.innerHTML = `
+    <svg id="emiSvg" viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;overflow:visible"
+         xmlns="http://www.w3.org/2000/svg">
+      ${gridLines}
+      ${barGroups}
+      <polyline points="${balPts}" fill="none" stroke="#185fa5" stroke-width="1.6" stroke-dasharray="5,3" opacity="0.75"/>
+      ${balDots}
+      ${crosshair}
+      ${overlays}
+      ${axes}
+      ${rightLbls}
+      ${xLbls}
+    </svg>`;
+
+  /* wire interactive events after DOM injection */
+  el.querySelectorAll('.chover').forEach(rect => {
+    const i = parseInt(rect.dataset.i);
+
+    rect.addEventListener('mouseenter', e => {
+      /* dim other bar groups */
+      for (let j = 0; j < n; j++) {
+        const g = document.getElementById(`bgrp-${j}`);
+        if (g) g.style.opacity = j === i ? '1' : '0.22';
+        const d = document.getElementById(`bdot-${j}`);
+        if (d) { d.setAttribute('r', j===i ? '5' : '2'); d.setAttribute('opacity', j===i ? '1' : '0.3'); }
+      }
+      /* show crosshair */
+      const cl = $('chLine');
+      if (cl) { cl.setAttribute('x1', xc(i)); cl.setAttribute('x2', xc(i)); cl.setAttribute('opacity', '0.45'); }
+      /* tooltip */
+      showChartTooltip(i, years[i], e);
+    });
+
+    rect.addEventListener('mousemove', moveChartTooltip);
+
+    rect.addEventListener('mouseleave', () => {
+      for (let j = 0; j < n; j++) {
+        const g = document.getElementById(`bgrp-${j}`);
+        if (g) g.style.opacity = '1';
+        const d = document.getElementById(`bdot-${j}`);
+        if (d) { d.setAttribute('r', '2.5'); d.setAttribute('opacity', '0.8'); }
+      }
+      const cl = $('chLine');
+      if (cl) cl.setAttribute('opacity', '0');
+      hideChartTooltip();
+    });
+  });
+}
+
+/* ── Chart tooltip ── */
+function showChartTooltip(i, y, e) {
+  const tt = $('chartTooltip');
+  const total  = y.int + y.princ + y.prepaid;
+  const intPct = total > 0 ? (y.int   / total * 100).toFixed(0) : 0;
+  const prPct  = total > 0 ? (y.princ / total * 100).toFixed(0) : 0;
+  const bothAmts = `₹${fmtL(y.int)} & ₹${fmtL(y.princ)}`;
+
+  tt.innerHTML = `
+    <div style="font-weight:600;font-size:13px;margin-bottom:8px;color:var(--text-primary);border-bottom:0.5px solid #ece9e4;padding-bottom:6px">
+      Year ${i+1}
+    </div>
+    <div style="display:grid;gap:5px;font-size:12px">
+      <div style="display:flex;justify-content:space-between;gap:20px">
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#f7c1c1"></span>Interest</span>
+        <span style="font-weight:500">₹${fmtL(y.int)}&nbsp;<span style="color:#b0ada8;font-size:10px">${intPct}%</span></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:20px">
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#b5d4f4"></span>Principal</span>
+        <span style="font-weight:500">₹${fmtL(y.princ)}&nbsp;<span style="color:#b0ada8;font-size:10px">${prPct}%</span></span>
+      </div>
+      ${y.prepaid > 0 ? `
+      <div style="display:flex;justify-content:space-between;gap:20px">
+        <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#c0dd97"></span>Prepaid</span>
+        <span style="font-weight:500">₹${fmtL(y.prepaid)}</span>
+      </div>` : ''}
+      <div style="border-top:0.5px solid #ece9e4;margin-top:3px;padding-top:5px;display:grid;gap:4px">
+        <div style="display:flex;justify-content:space-between;gap:20px">
+          <span style="color:var(--text-secondary)">Closing Balance</span>
+          <span style="font-weight:600;color:#185fa5">₹${fmtL(y.bal)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:20px">
+          <span style="color:var(--text-secondary)">Cumul. Interest</span>
+          <span style="font-weight:500;color:#a32d2d">₹${fmtL(y.cumInt)}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:20px">
+          <span style="color:var(--text-secondary)">Total this year</span>
+          <span style="font-weight:500">₹${fmtL(total)}</span>
+        </div>
+      </div>
+    </div>`;
+
+  tt.style.display = 'block';
+  moveChartTooltip(e);
+}
+function moveChartTooltip(e) {
+  const tt = $('chartTooltip');
+  if (tt.style.display === 'none') return;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let x = e.clientX + 18;
+  let y = e.clientY - 60;
+  if (x + 250 > vw) x = e.clientX - 260;
+  if (y < 8) y = 8;
+  if (y + 260 > vh) y = vh - 270;
+  tt.style.left = x + 'px';
+  tt.style.top  = y + 'px';
+}
+function hideChartTooltip() { $('chartTooltip').style.display = 'none'; }
+
+/* ══ Rate sensitivity table ══ */
 function renderRateSensitivity(P, aR, tenM) {
   const deltas  = [-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5];
   const baseEMI = calcEMI(P, aR, tenM);
-
-  const rows = deltas.map(d => {
-    const r   = Math.max(1, aR + d);
-    const emi = calcEMI(P, r, tenM);
-    const diff = emi - baseEMI;
-    return { rate: r, emi, diff, isCurrent: d === 0, delta: d };
-  });
-
   $('rateSensitivity').innerHTML = `
     <div style="font-size:11px;color:var(--text-secondary);margin-bottom:10px">
-      EMI impact of rate changes on ₹${fmtL(P)} loan for ${Math.round(tenM/12)} yrs
+      EMI impact of rate changes · ₹${fmtL(P)} loan · ${Math.round(tenM/12)} yrs
     </div>
     <table class="sens-table">
-      <thead>
-        <tr>
-          <th style="text-align:left">Rate</th>
-          <th style="text-align:right">Monthly EMI</th>
-          <th style="text-align:right">vs Current</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${rows.map(r => `
-          <tr class="${r.isCurrent ? 'sens-current' : ''}">
-            <td style="font-weight:${r.isCurrent ? '600' : '400'};color:${r.isCurrent ? 'var(--text-info)' : 'var(--text-primary)'}">
-              ${r.rate.toFixed(2)}%${r.isCurrent ? ' ◀ current' : ''}
-            </td>
-            <td style="text-align:right;font-weight:${r.isCurrent ? '600' : '400'}">₹${fmtN(r.emi)}</td>
-            <td style="text-align:right;color:${r.diff > 50 ? 'var(--text-danger)' : r.diff < -50 ? 'var(--text-success)' : 'var(--text-secondary)'}">
-              ${r.diff === 0 ? '—' : (r.diff > 0 ? '+' : '–') + '₹' + fmtN(Math.abs(r.diff))}
-            </td>
-          </tr>`).join('')}
-      </tbody>
+      <thead><tr>
+        <th style="text-align:left">Rate</th>
+        <th style="text-align:right">Monthly EMI</th>
+        <th style="text-align:right">vs Current</th>
+      </tr></thead>
+      <tbody>${deltas.map(d => {
+        const r    = Math.max(1, aR + d);
+        const emi  = calcEMI(P, r, tenM);
+        const diff = emi - baseEMI;
+        const cur  = d === 0;
+        return `<tr class="${cur?'sens-current':''}">
+          <td style="font-weight:${cur?'600':'400'};color:${cur?'var(--text-info)':'var(--text-primary)'}">
+            ${r.toFixed(2)}%${cur?' ◀ current':''}
+          </td>
+          <td style="text-align:right;font-weight:${cur?'600':'400'}">₹${fmtN(emi)}</td>
+          <td style="text-align:right;color:${diff>50?'var(--text-danger)':diff<-50?'var(--text-success)':'var(--text-secondary)'}">
+            ${diff===0?'—':(diff>0?'+':'–')+'₹'+fmtN(Math.abs(diff))}
+          </td>
+        </tr>`;
+      }).join('')}</tbody>
     </table>`;
+
+  if (!window._simInited) { $('simRateSlider').value = aR; window._simInited = true; }
+  updateSimulator();
 }
 
-/* ── Render ROI comparison ── */
-function renderROI(baseSched, modSched, preps, altYield) {
-  if (!$('roiResult')) return;
+/* ══ Rate Change Simulator ══ */
+function updateSimulator() {
+  const P    = parseFloat($('amt').value)    || 3000000;
+  const aR   = parseFloat($('rate').value)   || 8.75;
+  const tenY = parseFloat($('tenure').value) || 20;
+  const tenM = Math.round(tenY * 12);
+  const simR = parseFloat($('simRateSlider').value) || aR;
 
-  if (!preps.length) {
-    $('roiResult').innerHTML = `
-      <div style="text-align:center;padding:20px 0;font-size:12px;color:var(--text-secondary)">
-        Add prepayments (left panel) to see ROI analysis.
-      </div>`;
-    return;
+  $('simRateLbl').textContent = simR.toFixed(2) + '%';
+
+  const currentEMI = calcEMI(P, aR, tenM);
+  const newEMI     = calcEMI(P, simR, tenM);
+  const emiDiff    = newEMI - currentEMI;
+
+  /* solve tenure from fixed EMI: n = -ln(1 - P·r / EMI) / ln(1+r) */
+  const simR12 = simR / 12 / 100;
+  let newTenure = tenM;
+  if (simR12 > 0 && currentEMI > P * simR12) {
+    newTenure = Math.ceil(-Math.log(1 - P * simR12 / currentEMI) / Math.log(1 + simR12));
+  } else if (simR12 > 0) {
+    newTenure = tenM + 720;
   }
+  const tenDiff  = newTenure - tenM;
+  const noChange = Math.abs(emiDiff) < 1;
 
-  const baseInt = baseSched.reduce((s, r) => s + r.interest, 0);
-  const modInt  = modSched.reduce((s,  r) => s + r.interest, 0);
-  const interestSaved = Math.max(0, baseInt - modInt);
-  const totalPrep     = preps.reduce((s, p) => s + p.amount, 0);
-  const baseLen       = baseSched.length;
-
-  let totalInvestGains = 0;
-  preps.forEach(p => {
-    const prepMonth   = p.year * 12 + p.month;
-    const monthsLeft  = Math.max(0, baseLen - prepMonth);
-    const monthlyRate = altYield / 12 / 100;
-    totalInvestGains += p.amount * (Math.pow(1 + monthlyRate, monthsLeft) - 1);
-  });
-
-  const prepWins = interestSaved >= totalInvestGains;
-  const netDiff  = Math.abs(interestSaved - totalInvestGains);
-
-  $('roiResult').innerHTML = `
-    <div style="display:grid;gap:0">
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:0.5px solid var(--border-light)">
-        <span style="color:var(--text-secondary)">Total prepaid</span>
-        <span style="font-weight:600">₹${fmtL(totalPrep)}</span>
+  $('simResult').innerHTML = `
+    <div style="background:var(--bg-secondary);border:0.5px solid var(--border-light);border-radius:var(--radius-md);padding:12px 14px">
+      <div class="sim-result-row">
+        <span style="color:var(--text-secondary)">New Monthly EMI</span>
+        <span style="font-weight:600;font-size:15px">₹${fmtN(newEMI)}</span>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:0.5px solid var(--border-light)">
-        <span style="color:var(--text-secondary)">Interest saved (prepaying)</span>
-        <span style="font-weight:600;color:var(--text-success)">+₹${fmtL(interestSaved)}</span>
+      <div class="sim-result-row">
+        <span style="color:var(--text-secondary)">EMI change</span>
+        <span style="font-weight:600;color:${emiDiff>50?'var(--text-danger)':emiDiff<-50?'var(--text-success)':'var(--text-secondary)'}">
+          ${noChange?'No change':(emiDiff>0?'+':'–')+'₹'+fmtN(Math.abs(emiDiff))+'/mo'}
+        </span>
       </div>
-      <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:0.5px solid var(--border-light)">
-        <span style="color:var(--text-secondary)">Gains if invested @ ${altYield}%</span>
-        <span style="font-weight:600;color:var(--text-info)">+₹${fmtL(totalInvestGains)}</span>
-      </div>
-      <div style="background:${prepWins ? 'var(--bg-success)' : 'var(--bg-info)'};border:0.5px solid ${prepWins ? 'var(--border-success)' : 'var(--border-info)'};border-radius:var(--radius-md);padding:12px 14px;margin-top:10px;text-align:center">
-        <div style="font-size:14px;font-weight:600;color:${prepWins ? 'var(--text-success)' : 'var(--text-info)'}">
-          ${prepWins ? '✓ Prepaying wins' : '✓ Investing wins'}
-        </div>
-        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px">
-          ${prepWins
-            ? `₹${fmtL(netDiff)} better than investing @ ${altYield}%`
-            : `₹${fmtL(netDiff)} more gain from investing @ ${altYield}%`}
-        </div>
-      </div>
-      <div style="font-size:10px;color:var(--text-secondary);margin-top:8px;line-height:1.5">
-        * Investment gains are pre-tax estimates. LTCG (10% above ₹1L) / STCG (15%) taxes would reduce actual returns. Loan interest savings are guaranteed; investment returns are not.
+      <div class="sim-result-row">
+        <span style="color:var(--text-secondary)">Tenure impact (same EMI)</span>
+        <span style="font-weight:600;color:${tenDiff>0?'var(--text-danger)':tenDiff<0?'var(--text-success)':'var(--text-secondary)'}">
+          ${noChange?'No change'
+            :tenDiff>720?'EMI insufficient to cover interest'
+            :(tenDiff>0?'+':'')+Math.floor(Math.abs(tenDiff)/12)+'y '+(Math.abs(tenDiff)%12)+'m '+(tenDiff>0?'longer':'shorter')}
+        </span>
       </div>
     </div>`;
 }
 
-/* ── Add / remove prepayment ── */
+/* ══ ROI comparison ══ */
+function renderROI(baseSched, modSched, preps, altYield) {
+  if (!$('roiResult')) return;
+  if (!preps.length) {
+    $('roiResult').innerHTML = `<div style="text-align:center;padding:20px 0;font-size:12px;color:var(--text-secondary)">Add prepayments (left panel) to see ROI analysis.</div>`;
+    return;
+  }
+  const baseInt = baseSched.reduce((s,r) => s+r.interest, 0);
+  const modInt  = modSched.reduce((s,r)  => s+r.interest, 0);
+  const interestSaved = Math.max(0, baseInt - modInt);
+  const totalPrep     = preps.reduce((s,p) => s+p.amount, 0);
+  const baseLen       = baseSched.length;
+  let totalInvestGains = 0;
+  preps.forEach(p => {
+    const mLeft = Math.max(0, baseLen - (p.year*12+p.month));
+    const mr = altYield / 12 / 100;
+    totalInvestGains += p.amount * (Math.pow(1+mr, mLeft) - 1);
+  });
+  const prepWins = interestSaved >= totalInvestGains;
+  const netDiff  = Math.abs(interestSaved - totalInvestGains);
+  $('roiResult').innerHTML = `
+    <div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:0.5px solid var(--border-light)">
+        <span style="color:var(--text-secondary)">Total prepaid</span><span style="font-weight:600">₹${fmtL(totalPrep)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:0.5px solid var(--border-light)">
+        <span style="color:var(--text-secondary)">Interest saved by prepaying</span><span style="font-weight:600;color:var(--text-success)">+₹${fmtL(interestSaved)}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;padding:9px 0;border-bottom:0.5px solid var(--border-light)">
+        <span style="color:var(--text-secondary)">Gains if invested @ ${altYield}%</span><span style="font-weight:600;color:var(--text-info)">+₹${fmtL(totalInvestGains)}</span>
+      </div>
+      <div style="background:${prepWins?'var(--bg-success)':'var(--bg-info)'};border:0.5px solid ${prepWins?'var(--border-success)':'var(--border-info)'};border-radius:var(--radius-md);padding:12px 14px;margin-top:10px;text-align:center">
+        <div style="font-size:14px;font-weight:600;color:${prepWins?'var(--text-success)':'var(--text-info)'}">${prepWins?'✓ Prepaying wins':'✓ Investing wins'}</div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-top:4px">
+          ${prepWins?`₹${fmtL(netDiff)} better than investing @ ${altYield}%`:`₹${fmtL(netDiff)} more gain from investing @ ${altYield}%`}
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--text-secondary);margin-top:8px;line-height:1.5">
+        * Investment gains are pre-tax. LTCG (10% above ₹1L) / STCG (15%) taxes reduce actual returns. Interest savings are guaranteed.
+      </div>
+    </div>`;
+}
+
+/* ══ Add/remove prepayment ══ */
 function addPrep() {
-  const yr  = parseInt($('pYear').value) || 1;
-  const mo  = parseInt($('pMo').value)   || 0;
-  const amt = parseFloat($('pAmt').value)|| 0;
+  const yr  = parseInt($('pYear').value)  || 1;
+  const mo  = parseInt($('pMo').value)    || 0;
+  const amt = parseFloat($('pAmt').value) || 0;
   if (amt <= 0) return;
-  preps.push({ year: yr, month: mo, amount: amt, mode });
+  preps.push({ year:yr, month:mo, amount:amt, mode });
   calc();
 }
-function removePrep(i) { preps.splice(i, 1); calc(); }
+function removePrep(i) { preps.splice(i,1); calc(); }
 
-/* ── Main calculation & render ── */
+/* ══ Main calc & render ══ */
 function calc() {
   const P    = parseFloat($('amt').value)    || 3000000;
   const aR   = parseFloat($('rate').value)   || 8.75;
   const tenY = parseFloat($('tenure').value) || 20;
   const tenM = Math.round(tenY * 12);
 
-  /* sync sliders */
   $('amtR').value    = Math.min(P, 10000000);
   $('rateR').value   = aR;
   $('tenureR').value = tenY;
@@ -880,71 +1000,67 @@ function calc() {
   const modMo      = modSched.length;
   const savedMo    = origMo - modMo;
   const savedInt   = baseInt - modInt;
-  const totalPrep  = preps.reduce((s, p) => s + p.amount, 0);
-  const lastEMI    = modSched.length ? modSched[modSched.length - 1].emiPaid : baseEMI;
+  const totalPrep  = preps.reduce((s,p) => s+p.amount, 0);
+  const lastEMI    = modSched.length ? modSched[modSched.length-1].emiPaid : baseEMI;
   const emiReduced = preps.some(p => p.mode === 'emi');
 
-  /* summary */
-  $('sEMI').textContent    = '₹' + fmtN(lastEMI);
-  $('sEMIsub').textContent = emiReduced ? `Was ₹${fmtN(baseEMI)}` : 'Fixed monthly payment';
-  $('sInt').textContent    = '₹' + fmtL(modInt);
-  $('sIntSub').textContent = savedInt > 0
-    ? `Saved ₹${fmtL(savedInt)} 🎉`
-    : Math.round(modInt / P * 100) + '% of principal';
+  const totalEMIPaid = modSched.reduce((s,r) => s+r.emiPaid, 0);
+  const totalPaid    = totalEMIPaid + totalPrep;
 
-  const clsY = Math.floor(modMo / 12);
-  const clsM = modMo % 12;
+  /* ── tiles ── */
+  $('sEMI').textContent      = '₹' + fmtN(lastEMI);
+  $('sEMIsub').textContent   = emiReduced ? `Was ₹${fmtN(baseEMI)}` : 'Fixed monthly payment';
+  $('sInt').textContent      = '₹' + fmtL(modInt);
+  $('sIntSub').textContent   = savedInt > 0 ? `Saved ₹${fmtL(savedInt)} 🎉` : Math.round(modInt/P*100)+'% of principal';
+  $('sTotalPay').textContent = '₹' + fmtL(totalPaid);
+  $('sTotalPaySub').textContent = totalPrep > 0
+    ? `EMIs ₹${fmtL(totalEMIPaid)} + prepaid ₹${fmtL(totalPrep)}`
+    : `Over ${modMo} monthly payments`;
+  const clsY = Math.floor(modMo/12), clsM = modMo%12;
   $('sCls').textContent    = clsY + 'y ' + clsM + 'm';
-  $('sClsSub').textContent = savedMo > 0
-    ? `${Math.floor(savedMo / 12)}y ${savedMo % 12}m earlier`
-    : tenM + ' months total';
+  $('sClsSub').textContent = savedMo > 0 ? `${Math.floor(savedMo/12)}y ${savedMo%12}m earlier` : tenM+' months total';
 
-  /* breakdown bars */
-  const total = P + modInt + totalPrep;
+  /* ── bars ── */
+  const total   = P + modInt + totalPrep;
   const barDefs = [
-    { label: 'Principal',      amt: P,          fill: '#b5d4f4', text: '#185fa5' },
-    { label: 'Total Interest', amt: modInt,      fill: '#f7c1c1', text: '#a32d2d' },
-    { label: 'Prepayments',    amt: totalPrep,   fill: '#c0dd97', text: '#3b6d11' },
+    { label:'Principal',      amt:P,         fill:'#b5d4f4', text:'#185fa5' },
+    { label:'Total Interest', amt:modInt,     fill:'#f7c1c1', text:'#a32d2d' },
+    { label:'Prepayments',    amt:totalPrep,  fill:'#c0dd97', text:'#3b6d11' },
   ];
   $('bars').innerHTML = barDefs.map(b => {
-    const pct = total > 0 ? (b.amt / total * 100).toFixed(1) : 0;
-    return `
-      <div>
-        <div style="display:flex;justify-content:space-between;font-size:12px">
-          <span style="color:#706f6b">${b.label}</span>
-          <span style="font-weight:600">₹${fmtL(b.amt)} <span style="color:${b.text}">(${pct}%)</span></span>
-        </div>
-        <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${b.fill}"></div></div>
-      </div>`;
+    const pct = total > 0 ? (b.amt/total*100).toFixed(1) : 0;
+    return `<div>
+      <div style="display:flex;justify-content:space-between;font-size:12px">
+        <span style="color:#706f6b">${b.label}</span>
+        <span style="font-weight:600">₹${fmtL(b.amt)} <span style="color:${b.text}">(${pct}%)</span></span>
+      </div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${b.fill}"></div></div>
+    </div>`;
   }).join('');
-
   $('sTotal').textContent = '₹' + fmtL(total);
-
   $('savingsBox').innerHTML = (preps.length > 0 && savedInt > 0)
-    ? `<div class="savings-box">
-         ✓ Every ₹1 prepaid saves ₹${(savedInt / totalPrep).toFixed(2)} in interest
-         &nbsp;·&nbsp; Loan closes ${Math.floor(savedMo / 12)}y ${savedMo % 12}m early
-       </div>`
+    ? `<div class="savings-box">✓ Every ₹1 prepaid saves ₹${(savedInt/totalPrep).toFixed(2)} in interest &nbsp;·&nbsp; Loan closes ${Math.floor(savedMo/12)}y ${savedMo%12}m early</div>`
     : '';
 
   renderTable(modSched);
   renderPrepList();
   renderTaxBenefits(modSched, P);
+  renderEMIChart(modSched, P);
   renderRateSensitivity(P, aR, tenM);
-  if (showROI) renderROI(baseSched, modSched, preps, parseFloat($('altYield').value) || 7);
+  if (showROI) renderROI(baseSched, modSched, preps, parseFloat($('altYield').value)||7);
 }
 
-/* ── Wire slider ↔ input sync ── */
+/* ══ Slider ↔ input sync ══ */
 function wireSlider(inputId, sliderId) {
   const inp = $(inputId), sldr = $(sliderId);
-  inp.addEventListener('input', () => { sldr.value = inp.value; calc(); });
-  sldr.addEventListener('input', () => { inp.value = sldr.value; calc(); });
+  inp.addEventListener('input',  () => { sldr.value = inp.value;  calc(); });
+  sldr.addEventListener('input', () => { inp.value  = sldr.value; calc(); });
 }
-wireSlider('amt', 'amtR');
-wireSlider('rate', 'rateR');
+wireSlider('amt',    'amtR');
+wireSlider('rate',   'rateR');
 wireSlider('tenure', 'tenureR');
 
-/* ── Initial render ── */
+/* ══ Boot ══ */
 calc();
 </script>
 </body>
